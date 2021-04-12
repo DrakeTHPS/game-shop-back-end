@@ -6,7 +6,8 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public class Genres {
+@Table(name="genres")
+public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,7 +17,7 @@ public class Genres {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "genres")
-    Set<Games> games;
+    Set<Game> games;
 
     public Long getId() {
         return id;
@@ -34,11 +35,11 @@ public class Genres {
         this.genre = genre;
     }
 
-    public Set<Games> getGames() {
+    public Set<Game> getGames() {
         return games;
     }
 
-    public void setGames(Set<Games> games) {
+    public void setGames(Set<Game> games) {
         this.games = games;
     }
 }

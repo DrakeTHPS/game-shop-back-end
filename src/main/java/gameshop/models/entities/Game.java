@@ -7,7 +7,8 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
-public class Games {
+@Table(name="games")
+public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,7 +41,7 @@ public class Games {
             joinColumns = @JoinColumn(name = "game_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
-    private Set<Genres> genres;
+    private Set<Genre> genres;
 
     public Long getId() {
         return id;
@@ -90,11 +91,11 @@ public class Games {
         this.sold = sold;
     }
 
-    public Set<Genres> getGenres() {
+    public Set<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenres(Set<Genres> genres) {
+    public void setGenres(Set<Genre> genres) {
         this.genres = genres;
     }
 

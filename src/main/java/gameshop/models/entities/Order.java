@@ -5,7 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Orders {
+@Table(name="orders")
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -16,13 +17,13 @@ public class Orders {
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "game_id")
     )
-    List<Games> basket;
+    List<Game> basket;
 
     Date orderDate;
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    Users users;
+    User user;
 
     public Long getId() {
         return id;
@@ -32,11 +33,11 @@ public class Orders {
         this.id = id;
     }
 
-    public List<Games> getBasket() {
+    public List<Game> getBasket() {
         return basket;
     }
 
-    public void setBasket(List<Games> basket) {
+    public void setBasket(List<Game> basket) {
         this.basket = basket;
     }
 
@@ -48,11 +49,11 @@ public class Orders {
         this.orderDate = orderDate;
     }
 
-    public Users getUser() {
-        return users;
+    public User getUser() {
+        return user;
     }
 
-    public void setUser(Users users) {
-        this.users = users;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

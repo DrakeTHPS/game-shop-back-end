@@ -1,6 +1,6 @@
 package gameshop.controllers;
 
-import gameshop.models.entities.Games;
+import gameshop.models.entities.Game;
 import gameshop.models.repositories.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,37 +17,38 @@ public class GameController {
 
 
     @GetMapping("/games")
-    public List<Games> index() {
+    public List<Game> index() {
         return gameRepository.findAll();
     }
 
     @GetMapping("/games/{id}")
-    public Games get(@PathVariable long id) {
-        Optional<Games> result = gameRepository.findById(id);
+    public Game get(@PathVariable long id) {
+        Optional<Game> result = gameRepository.findById(id);
         return result.orElse(null);
     }
 
 
-
     @PostMapping("/games")
     @ResponseStatus(HttpStatus.CREATED)
-    public Games create(@RequestBody Games games){
-        return gameRepository.save(games);
+    public Game create(@RequestBody Game game){
+        return gameRepository.save(game);
     }
+
+
     @PutMapping("/games/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Games save(@PathVariable long id, @RequestBody Games newGames) {
+    public Game save(@PathVariable long id, @RequestBody Game newGame) {
         return gameRepository.findById(id)
-                .map(games -> {
-                    games.setTitle(newGames.getTitle());
-                    games.setPrice(newGames.getPrice());
-                    games.setDeveloper(newGames.getDeveloper());
-                    games.setGenres(newGames.getGenres());
-                    games.setDiscount(newGames.getDiscount());
-                    games.setSold(newGames.getSold());
-                    games.setImgLink(newGames.getImgLink());
-                    games.setReleaseDate(newGames.getReleaseDate());
-                    return gameRepository.save(games);
+                .map(game -> {
+                    game.setTitle(newGame.getTitle());
+                    game.setPrice(newGame.getPrice());
+                    game.setDeveloper(newGame.getDeveloper());
+                    game.setGenres(newGame.getGenres());
+                    game.setDiscount(newGame.getDiscount());
+                    game.setSold(newGame.getSold());
+                    game.setImgLink(newGame.getImgLink());
+                    game.setReleaseDate(newGame.getReleaseDate());
+                    return gameRepository.save(game);
                 }).orElseGet(() -> null);
     }
 

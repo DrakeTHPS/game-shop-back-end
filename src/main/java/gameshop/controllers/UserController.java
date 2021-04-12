@@ -1,37 +1,39 @@
 package gameshop.controllers;
 
-import gameshop.models.entities.Users;
+import gameshop.models.entities.User;
 import gameshop.models.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+
+@RestController
+@CrossOrigin
 public class UserController {
     @Autowired
     UserRepository userRepository;
 
     @GetMapping("/users")
-    public List<Users> index() {
+    public List<User> index() {
         return userRepository.findAll();
     }
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public Users create(@RequestBody Users Users) {
-        return userRepository.save(Users);
+    public User create(@RequestBody User User) {
+        return userRepository.save(User);
     }
 
     @PutMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Users save(@PathVariable long id, @RequestBody Users newUsers) {
+    public User save(@PathVariable long id, @RequestBody User newUser) {
         return userRepository.findById(id)
-                .map(users -> {
-                    users.setLogin(newUsers.getLogin());
-                    users.setPassword(newUsers.getPassword());
-                    users.setRole(newUsers.getRole());
-                    return userRepository.save(users);
+                .map(user -> {
+                    user.setLogin(newUser.getLogin());
+                    user.setPassword(newUser.getPassword());
+                    user.setRole(newUser.getRole());
+                    return userRepository.save(user);
                 }).orElseGet(() -> null);
     }
 
