@@ -5,24 +5,24 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Order {
+public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "book_in_order",
+            name = "game_in_order",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "game_id")
     )
-    List<Game> basket;
+    List<Games> basket;
 
     Date orderDate;
 
     @ManyToOne
     @JoinColumn(name="user_id")
-    User user;
+    Users users;
 
     public Long getId() {
         return id;
@@ -32,11 +32,11 @@ public class Order {
         this.id = id;
     }
 
-    public List<Game> getBasket() {
+    public List<Games> getBasket() {
         return basket;
     }
 
-    public void setBasket(List<Game> basket) {
+    public void setBasket(List<Games> basket) {
         this.basket = basket;
     }
 
@@ -48,11 +48,11 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public User getUser() {
-        return user;
+    public Users getUser() {
+        return users;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(Users users) {
+        this.users = users;
     }
 }

@@ -1,6 +1,6 @@
 package gameshop.controllers;
 
-import gameshop.models.entities.User;
+import gameshop.models.entities.Users;
 import gameshop.models.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,25 +13,25 @@ public class UserController {
     UserRepository userRepository;
 
     @GetMapping("/users")
-    public List<User> index() {
+    public List<Users> index() {
         return userRepository.findAll();
     }
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public User create(@RequestBody User User) {
-        return userRepository.save(User);
+    public Users create(@RequestBody Users Users) {
+        return userRepository.save(Users);
     }
 
     @PutMapping("/users/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public User save(@PathVariable long id, @RequestBody User newUser) {
+    public Users save(@PathVariable long id, @RequestBody Users newUsers) {
         return userRepository.findById(id)
-                .map(user -> {
-                    user.setLogin(newUser.getLogin());
-                    user.setPassword(newUser.getPassword());
-                    user.setRole(newUser.getRole());
-                    return userRepository.save(user);
+                .map(users -> {
+                    users.setLogin(newUsers.getLogin());
+                    users.setPassword(newUsers.getPassword());
+                    users.setRole(newUsers.getRole());
+                    return userRepository.save(users);
                 }).orElseGet(() -> null);
     }
 

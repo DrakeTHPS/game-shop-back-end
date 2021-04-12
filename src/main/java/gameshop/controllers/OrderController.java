@@ -1,6 +1,6 @@
 package gameshop.controllers;
 
-import gameshop.models.entities.Order;
+import gameshop.models.entities.Orders;
 import gameshop.models.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,19 +15,19 @@ public class OrderController {
     OrderRepository orderRepository;
 
     @GetMapping("/orders")
-    public List<Order> index() {
+    public List<Orders> index() {
         return orderRepository.findAll();
     }
 
     @PostMapping("/orders")
     @ResponseStatus(HttpStatus.CREATED)
-    public Order create(@RequestBody Order order) {
+    public Orders create(@RequestBody Orders order) {
         return orderRepository.save(order);
     }
 
     @PutMapping("/orders/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Order save(@PathVariable long id, @RequestBody Order newOrder) {
+    public Orders save(@PathVariable long id, @RequestBody Orders newOrder) {
         return orderRepository.findById(id)
                 .map(order -> {
                     order.setOrderDate(newOrder.getOrderDate());

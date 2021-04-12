@@ -3,11 +3,11 @@ package gameshop.models.entities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import java.util.Locale;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
-public class Game {
+public class Games {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,14 +27,20 @@ public class Game {
     @Column(nullable = false)
     private Integer sold;
 
+    @Column(name = "img_link", nullable = false)
+    private String imgLink;
+
+    @Column(name = "release_date", nullable = false)
+    private Date releaseDate;
+
     @JsonIgnoreProperties({"games"})
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name="game_genre",
-            joinColumns = @JoinColumn(name = "book_id"),
+            joinColumns = @JoinColumn(name = "game_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
-    private Set<Genre> genres;
+    private Set<Genres> genres;
 
     public Long getId() {
         return id;
@@ -84,11 +90,27 @@ public class Game {
         this.sold = sold;
     }
 
-    public Set<Genre> getGenres() {
+    public Set<Genres> getGenres() {
         return genres;
     }
 
-    public void setGenres(Set<Genre> genres) {
+    public void setGenres(Set<Genres> genres) {
         this.genres = genres;
+    }
+
+    public String getImgLink() {
+        return imgLink;
+    }
+
+    public void setImgLink(String imgLink) {
+        this.imgLink = imgLink;
+    }
+
+    public Date getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(Date releaseDate) {
+        this.releaseDate = releaseDate;
     }
 }

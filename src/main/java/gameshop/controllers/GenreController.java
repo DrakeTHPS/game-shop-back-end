@@ -1,6 +1,6 @@
 package gameshop.controllers;
 
-import gameshop.models.entities.Genre;
+import gameshop.models.entities.Genres;
 import gameshop.models.repositories.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,24 +13,24 @@ public class GenreController {
     GenreRepository genreRepository;
 
     @GetMapping("/genres")
-    public List<Genre> index() {
+    public List<Genres> index() {
         return genreRepository.findAll();
     }
 
     @PostMapping("/genres")
     @ResponseStatus(HttpStatus.CREATED)
-    public Genre create(@RequestBody Genre genre) {
-        return genreRepository.save(genre);
+    public Genres create(@RequestBody Genres genres) {
+        return genreRepository.save(genres);
     }
 
     @PutMapping("/genres/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Genre save(@PathVariable long id, @RequestBody Genre newGenre) {
+    public Genres save(@PathVariable long id, @RequestBody Genres newGenres) {
         return genreRepository.findById(id)
-                .map(Genre -> {
-                    Genre.setGenre(newGenre.getGenre());
-                    Genre.setBooks(newGenre.getBooks());
-                    return genreRepository.save(Genre);
+                .map(Genres -> {
+                    Genres.setGenre(newGenres.getGenre());
+                    Genres.setGames(newGenres.getGames());
+                    return genreRepository.save(Genres);
                 }).orElseGet(() -> null);
     }
 
