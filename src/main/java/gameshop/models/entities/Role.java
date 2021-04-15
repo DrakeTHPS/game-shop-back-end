@@ -2,8 +2,8 @@ package gameshop.models.entities;
 
 public enum Role {
 
-    ADMIN("Admin"),
-    USER("User");
+    ROLE_ADMIN("ROLE_ADMIN"),
+    ROLE_USER("ROLE_USER");
 
     private final String role;
 

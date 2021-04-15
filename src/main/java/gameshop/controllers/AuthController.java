@@ -19,10 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -42,7 +39,7 @@ public class AuthController {
     JwtUtils jwtUtils;
 
     @PostMapping("/signin")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody User loginRequest) {
+    public ResponseEntity<?> authenticateUser(@RequestBody User loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getLogin(), loginRequest.getPassword()));
@@ -61,7 +58,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody User signUpRequest) {
+    public ResponseEntity<?> registerUser(@RequestBody User signUpRequest) {
         if (userRepository.existsByLogin(signUpRequest.getLogin())) {
             return ResponseEntity
                     .badRequest()
@@ -71,7 +68,7 @@ public class AuthController {
         // Create new user's account
         User user = new User(signUpRequest.getLogin(),
                 encoder.encode(signUpRequest.getPassword()),
-                Role.USER);
+                Role.ROLE_USER);
 
         userRepository.save(user);
 

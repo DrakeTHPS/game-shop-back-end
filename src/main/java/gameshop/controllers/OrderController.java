@@ -1,45 +1,36 @@
 package gameshop.controllers;
 
+import gameshop.models.entities.Game;
 import gameshop.models.entities.Order;
 import gameshop.models.repositories.OrderRepository;
+import gameshop.models.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
 @CrossOrigin
+@Secured({"ROLE_USER", "ROLE_ADMIN"})
 public class OrderController {
     @Autowired
     OrderRepository orderRepository;
 
-    @GetMapping("/orders")
-    public List<Order> index() {
-        return orderRepository.findAll();
-    }
+    @Autowired
+    UserRepository userRepository;
 
     @PostMapping("/orders")
     @ResponseStatus(HttpStatus.CREATED)
-    public Order create(@RequestBody Order order) {
-        return orderRepository.save(order);
+    public void create(@RequestBody List<Game> games, Authentication authentication) {
+        Order order = new Order();
+        order.setBasket(games);
+        order.setOrderDate(new Date());
+        order.setUser(userRepository.findByLogin(authentication.getName()).orElse(null));
+        orderRepository.save(order);
     }
 
-    @PutMapping("/orders/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Order save(@PathVariable long id, @RequestBody Order newOrder) {
-        return orderRepository.findById(id)
-                .map(order -> {
-                    order.setOrderDate(newOrder.getOrderDate());
-                    order.setBasket(newOrder.getBasket());
-                    order.setUser(newOrder.getUser());
-                    return orderRepository.save(order);
-                }).orElseGet(() -> null);
-    }
-
-    @DeleteMapping("/orders/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public void delete(@PathVariable long id){
-        orderRepository.deleteById(id);
-    }
 }

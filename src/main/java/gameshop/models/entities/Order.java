@@ -1,5 +1,8 @@
 package gameshop.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +22,8 @@ public class Order {
     )
     List<Game> basket;
 
+    @Column
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
     Date orderDate;
 
     @ManyToOne

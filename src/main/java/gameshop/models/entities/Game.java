@@ -1,6 +1,8 @@
 package gameshop.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -32,6 +34,7 @@ public class Game {
     private String imgLink;
 
     @Column(name = "release_date", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date releaseDate;
 
     @JsonIgnoreProperties({"games"})

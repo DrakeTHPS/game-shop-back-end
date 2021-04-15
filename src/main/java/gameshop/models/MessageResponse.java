@@ -1,9 +1,14 @@
 package gameshop.models;
 
 public class MessageResponse {
-    String message;
+    String msg;
 
-    public MessageResponse(String message) {
-        this.message = message;
+    public MessageResponse(String msg) {
+        this.msg = msg;
+    }
+
+
+    public String getMsg() {
+        return msg;
     }
 }
