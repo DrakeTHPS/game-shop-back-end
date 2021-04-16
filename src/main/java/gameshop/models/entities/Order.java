@@ -23,7 +23,6 @@ public class Order {
     List<Game> basket;
 
     @Column
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
     Date orderDate;
 
     @ManyToOne

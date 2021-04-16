@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,16 +33,19 @@ public class AdminController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    PasswordEncoder encoder;
+
     @PostMapping("/games")
     @ResponseStatus(HttpStatus.CREATED)
     public Game create(@RequestBody Game game) {
+        game.setSold(0);
         return gameRepository.save(game);
     }
 
     @PutMapping("/games/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Game save(@PathVariable long id, @RequestBody Game newGame) {
-
         return gameRepository.findById(id)
                 .map(game -> {
                     BeanUtils.copyProperties(newGame, game, "id");
@@ -91,8 +95,9 @@ public class AdminController {
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
-    public User create(@RequestBody User User) {
-        return userRepository.save(User);
+    public User create(@RequestBody User newUser) {
+        newUser.setPassword(encoder.encode(newUser.getPassword()));
+        return userRepository.save(newUser);
     }
 
     @PutMapping("/users/{id}")
@@ -101,6 +106,7 @@ public class AdminController {
         return userRepository.findById(id)
                 .map(user -> {
                     BeanUtils.copyProperties(newUser, user, "id");
+                    user.setPassword(encoder.encode(user.getPassword()));
                     return userRepository.save(user);
                 }).orElse(null);
     }

@@ -34,7 +34,6 @@ public class Game {
     private String imgLink;
 
     @Column(name = "release_date", nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date releaseDate;
 
     @JsonIgnoreProperties({"games"})

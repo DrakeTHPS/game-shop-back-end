@@ -32,5 +32,4 @@ public class OrderController {
         order.setUser(userRepository.findByLogin(authentication.getName()).orElse(null));
         orderRepository.save(order);
     }
-
 }
